@@ -48,4 +48,4 @@ result = agent_excutor.invoke({"input":f"""You are an helpful libray agent,
                             Your job is to recommed people books and tell tp them 
                             in a very repectful way,
                             user liked {Title} recommed him some books in a good format"""})
-print(parser.invoke(result["output"] if isinstance(result, dict) and "output" in result else result))
+print(parser.invoke(result["output"]))
