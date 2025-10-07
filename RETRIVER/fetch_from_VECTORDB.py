@@ -12,6 +12,8 @@ vector_store=Chroma(
     persist_directory="/run/media/tst_imperial/Projects/BOOKai/VECTORDB/BOOKDB"
 )
 
+#-----------------------THIS BLOCK OF CODE IS FOR TESTING ONLY-----------------------------------------
+'''
 result=vector_store.similarity_search_with_relevance_scores(
     query="Germs : Biological Weapons and America's Secre... 	By Miller, Judith, Engelberg, Stephen, and Bro... 	Deadly germs sprayed in shopping malls, bomb-l... 	Technology & Engineering , Military Science 	Simon & Schuster 	4.99 	October 	2001",
     k=3
@@ -25,3 +27,4 @@ for doc, score in result:
     print("{:<70} | {:<10.4f}".format(title[:70], score)) 
 
 print("-" * 82)
+'''

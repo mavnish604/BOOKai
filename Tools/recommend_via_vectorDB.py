@@ -1,5 +1,15 @@
-from langchain_chroma import Chroma
-from web_search_tool import search_tool
+import sys
+import os
+
+# Command to add the project root to Python's path
+project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
+if project_root not in sys.path:
+    sys.path.insert(0, project_root)
+
+# ... keep the rest of your imports and code below this
+
+
+from Tools.web_search_tool import search_tool
 from langchain_google_genai import ChatGoogleGenerativeAI
 from langchain_core.output_parsers import PydanticOutputParser
 from langchain_core.prompts import PromptTemplate
@@ -7,6 +17,7 @@ from dotenv import load_dotenv
 from langchain import hub
 from langchain.agents import create_react_agent,AgentExecutor
 from pydantic import BaseModel,Field
+from RETRIVER.fetch_from_VECTORDB import vector_store
 
 # ...existing imports...
 
@@ -23,7 +34,7 @@ agent = create_react_agent(
 agent_executor = AgentExecutor(
     agent=agent,
     tools=[search_tool],
-    verbose=True,
+    verbose=False,
     handle_parsing_errors=True
 )
 
@@ -62,3 +73,35 @@ print(parsed)
 '''
 #--------Searching the vector db----------------------------
 
+title = "Harry Potter and the Half Blood Prince"
+prompt_text = template.format(title=title)
+
+# Run the agent_executor with the constructed prompt
+result = agent_executor.invoke({"input": prompt_text})
+
+#print(result)
+# Parse the output using your parser
+parsed = parser.invoke(result["output"])
+
+
+query_sentence = (
+    f"{parsed.Title}: {parsed.Description} "
+    f"Written by {parsed.Author} and published by {parsed.publisher}. "
+    f"Category: {parsed.category}."
+)
+
+
+res=result=vector_store.similarity_search_with_relevance_scores(
+    query=query_sentence,
+    k=3
+)
+
+for doc, score in res:
+    # 1. Access the 'source_title' key from the Document's metadata dictionary
+    title = doc.metadata.get('source_title', 'TITLE NOT FOUND')
+    
+    # 2. Print the formatted output
+    # Use slicing [:] to ensure the title doesn't overflow if it's too long
+    print("{:<70} | {:<10.4f}".format(title[:70], score)) 
+
+print("-" * 82)
