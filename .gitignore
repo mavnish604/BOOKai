@@ -162,3 +162,7 @@ vector_store/BOOKDB
 
 large_flies/
 BOOKDB/
+# Next.js UI folder
+bookai-ui/node_modules
+bookai-ui/.next
+bookai-ui/out

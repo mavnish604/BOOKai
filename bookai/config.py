@@ -31,3 +31,21 @@ DB_PERSIST_PATH = VECTOR_STORE_DIR / "BOOKDB"
 
 # 6. API Keys
 SERPER_API_KEY = os.getenv("SERPER_API_KEY")
+
+# bookai/config.py
+
+# 1. Load environment variables from .env file
+load_dotenv()
+
+# --- (Your existing path variables) ---
+PROJECT_ROOT = Path(__file__).parent.parent
+# ... (all your other paths) ...
+DB_PERSIST_PATH = VECTOR_STORE_DIR / "BOOKDB"
+
+# --- 6. API Keys ---
+SERPER_API_KEY = os.getenv("SERPER_API_KEY")
+GOOGLE_API_KEY = os.getenv("GOOGLE_API_KEY") # We'll need this for Gemini
+
+# --- ADD THIS LINE ---
+GROQ_API_KEY = os.getenv("GROQ_API_KEY")
+HF_TOKEN = os.getenv("HUGGINGFACEHUB_API_TOKEN")
