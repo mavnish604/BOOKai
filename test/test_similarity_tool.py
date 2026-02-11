@@ -32,7 +32,7 @@ recommendation_tool_instance = BookRecommendationTool(
 )
 # -------------------------------------
 
-model = ChatGoogleGenerativeAI(model="gemini-2.0-flash") # Using 1.5-flash
+model = ChatGoogleGenerativeAI(model="gemini-2.0-flash")
 prompt = hub.pull("hwchase17/react")
 
 agent = create_react_agent(

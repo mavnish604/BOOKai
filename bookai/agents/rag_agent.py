@@ -1,6 +1,6 @@
 import sys
 import os
-from langchain_google_genai import ChatGoogleGenerativeAI
+from langchain_openai import ChatOpenAI
 from langchain_core.output_parsers import PydanticOutputParser
 from langchain_core.prompts import PromptTemplate
 from dotenv import load_dotenv
@@ -11,12 +11,20 @@ from pydantic import BaseModel, Field
 # --- Corrected Imports ---
 from bookai.tools.web_search_tool import search_tool
 from bookai.vector_db.retriever import vector_store
+from bookai.config import GROQ_API_KEY # Import API Key
 # ---------------------------
 
 load_dotenv()
 
 # --- Setup (These objects are created once and reused) ---
-model = ChatGoogleGenerativeAI(model="gemini-2.5-flash")
+# Reverted to Groq (ChatOpenAI) as per user request
+# Using Llama 3 70B for better tool calling reliability
+model = ChatOpenAI(
+    model_name="llama-3.3-70b-versatile",
+    api_key=GROQ_API_KEY,
+    base_url="https://api.groq.com/openai/v1",
+    temperature=0
+)
 prompt = hub.pull("hwchase17/react")
 
 agent = create_react_agent(
