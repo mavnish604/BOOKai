@@ -1,10 +1,10 @@
-# 📚 BOOKai: The Hybrid Recommendation Engine
+# BOOKai: The Hybrid Recommendation Engine
 
 ### Real-time, Topic-Aware Book Recommendations with LLM-Powered Explanations
 
 This project demonstrates a production-ready **hybrid architecture** that uses two different data models and multiple AI APIs to deliver the best possible book recommendations, optimizing for both speed and relevance simultaneously.
 
-## ✨ Core Features
+## Core Features
 
 | Feature | Description | Technical Implementation |
 | :--- | :--- | :--- |
@@ -13,13 +13,13 @@ This project demonstrates a production-ready **hybrid architecture** that uses t
 | **Agent Verbose Mode** | The UI features a collapsible panel to show the Agent's thought process and tool calls, providing full transparency [cite: user]. | FastAPI streams newline-delimited JSON (NDJSON) events to the React UI. |
 | **Tiered Model Strategy** | Optimizes for speed and cost by using the fastest available LLM for each specific task (Groq for formatting, Gemini for web search). | Dedicated API clients for **Groq**, **Gemini**, and **Hugging Face** backup. |
 
-## 📐 System Architecture
+## System Architecture
 
 The project's core strength is its logic flow. The application never assumes a single model is the best answer.
 
 !
 
-## 🛠️ Technology Stack
+## Technology Stack
 
 | Component | Technology | Purpose |
 | :--- | :--- | :--- |
@@ -29,7 +29,7 @@ The project's core strength is its logic flow. The application never assumes a s
 | **AI Providers** | **Google AI (Gemini)**, **Groq**, **Hugging Face (Mixtral/GPT-OSS)** | Multi-tier model access and failover [cite: user]. |
 | **Frontend/UI** | **React/Next.js** | Interactive, dynamic chat interface. |
 
-## 🚀 Setup & Installation
+## Setup & Installation
 
 ### 1. Backend Setup
 
@@ -92,7 +92,7 @@ The project's core strength is its logic flow. The application never assumes a s
 
 ---
 
-## 💻 API Reference
+## API Reference
 
 The FastAPI application provides two main endpoints for your recommendation logic.
 
