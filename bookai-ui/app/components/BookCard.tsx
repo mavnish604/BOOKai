@@ -14,8 +14,8 @@ export default function BookCard({ title, explanation, score }: BookCardProps) {
     const [isSummaryLoading, setIsSummaryLoading] = useState(false);
     const [isExpanded, setIsExpanded] = useState(false);
 
-    // API Base URL (hardcoded for now as in original)
-    const API_URL = 'http://127.0.0.1:8000';
+   
+    const API_URL = process.env.NEXT_PUBLIC_BACKEND_URL;
 
     useEffect(() => {
         async function fetchCover() {
