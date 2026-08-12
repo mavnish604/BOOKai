@@ -1,42 +1,50 @@
 import React from 'react';
+import { SendIcon } from './Icons';
 
 interface ChatInputProps {
     query: string;
     setQuery: (query: string) => void;
     handleSubmit: (e: React.FormEvent) => void;
     isLoading: boolean;
+    queriesUsed: number;
+    queryLimit: number;
 }
 
-export default function ChatInput({ query, setQuery, handleSubmit, isLoading }: ChatInputProps) {
-    return (
-        <div className="bg-white border-t border-gray-200 p-4">
-            <form
-                className="max-w-4xl mx-auto relative flex items-center gap-2"
-                onSubmit={handleSubmit}
-            >
-                <input
-                    type="text"
-                    value={query}
-                    onChange={(e) => setQuery(e.target.value)}
-                    placeholder="Ask for a book recommendation based on your mood or interests..."
-                    disabled={isLoading}
-                    className="w-full bg-gray-50 text-gray-900 rounded-full border border-gray-300 pl-5 pr-12 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all placeholder-gray-400 disabled:bg-gray-100 disabled:cursor-not-allowed"
-                />
+export default function ChatInput({ query, setQuery, handleSubmit, isLoading, queriesUsed, queryLimit }: ChatInputProps) {
+    const isLimitReached = queriesUsed >= queryLimit;
 
-                <button
-                    type="submit"
-                    disabled={isLoading || !query.trim()}
-                    className="absolute right-2 top-1/2 -translate-y-1/2 p-2 bg-blue-600 text-white rounded-full hover:bg-blue-700 disabled:bg-gray-300 disabled:cursor-not-allowed transition-colors shadow-md flex items-center justify-center w-9 h-9"
-                    aria-label="Send message"
-                >
-                    {isLoading ? (
-                        <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
-                    ) : (
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-4 h-4 ml-0.5">
-                            <path strokeLinecap="round" strokeLinejoin="round" d="M6 12L3.269 3.126A59.768 59.768 0 0121.485 12 59.77 59.77 0 013.27 20.876L5.999 12zm0 0h7.5" />
-                        </svg>
-                    )}
-                </button>
+    return (
+        <div className="relative flex-shrink-0 px-4 pb-4 pt-2 sm:px-6 sm:pb-5">
+            <div className="pointer-events-none absolute inset-x-0 bottom-0 -z-10 h-28 bg-gradient-to-t from-[#f8f9ff] via-[#f8f9ff] to-transparent dark:from-[#090a12] dark:via-[#090a12]" />
+            <form className="mx-auto max-w-3xl" onSubmit={handleSubmit}>
+                <div className="flex items-end gap-2 rounded-[1.45rem] border border-slate-200 bg-white p-2 shadow-[0_10px_35px_rgba(59,70,130,0.12)] transition focus-within:border-indigo-300 focus-within:ring-4 focus-within:ring-indigo-100/70 dark:border-white/10 dark:bg-[#151622] dark:shadow-[0_10px_35px_rgba(0,0,0,0.28)] dark:focus-within:border-indigo-400/50 dark:focus-within:ring-indigo-500/10">
+                    <textarea
+                        value={query}
+                        onChange={(e) => setQuery(e.target.value)}
+                        onKeyDown={(e) => {
+                            if (e.key === 'Enter' && !e.shiftKey) {
+                                e.preventDefault();
+                                e.currentTarget.form?.requestSubmit();
+                            }
+                        }}
+                        placeholder={isLimitReached ? 'You’ve used all 5 prompts in this session.' : 'Ask about a book, genre, or reading mood…'}
+                        disabled={isLoading || isLimitReached}
+                        rows={1}
+                        className="max-h-28 min-h-10 flex-1 resize-none bg-transparent py-2.5 text-sm leading-5 text-slate-800 outline-none placeholder:text-slate-400 disabled:cursor-not-allowed dark:text-slate-100 dark:placeholder:text-slate-500"
+                        aria-label="Book recommendation prompt"
+                    />
+                    <button
+                        type="submit"
+                        disabled={isLoading || isLimitReached || !query.trim()}
+                        className="mb-0.5 grid h-9 w-9 shrink-0 place-items-center rounded-full bg-gradient-to-br from-indigo-500 to-violet-600 text-white shadow-md shadow-indigo-500/25 transition hover:scale-105 hover:shadow-indigo-500/40 disabled:cursor-not-allowed disabled:scale-100 disabled:bg-slate-300 disabled:opacity-55 disabled:shadow-none dark:disabled:bg-slate-700"
+                        aria-label="Send prompt"
+                    >
+                        {isLoading ? <span className="h-4 w-4 animate-spin rounded-full border-2 border-white border-t-transparent" /> : <SendIcon className="h-[17px] w-[17px]" />}
+                    </button>
+                </div>
+                <p className="mt-2 text-center text-[11px] text-slate-400 dark:text-slate-500">
+                    {isLimitReached ? 'Prompt limit reached — start a new browser session to continue.' : `${queryLimit - queriesUsed} of ${queryLimit} prompts left this session · Enter to send`}
+                </p>
             </form>
         </div>
     );

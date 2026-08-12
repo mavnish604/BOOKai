@@ -1,6 +1,29 @@
 @import "tailwindcss";
 
-/* Custom keyframe animations can go here if needed */
+@custom-variant dark (&:where(.dark, .dark *));
+
+html {
+  background: #f8f9ff;
+}
+
+html.dark {
+  background: #090a12;
+}
+
+body {
+  min-height: 100vh;
+}
+
+::selection {
+  background: #c7d2fe;
+  color: #1e1b4b;
+}
+
+.dark ::selection {
+  background: #4338ca;
+  color: #eef2ff;
+}
+
 @keyframes fadeIn {
   from {
     opacity: 0;
@@ -33,4 +56,8 @@
 
 ::-webkit-scrollbar-thumb:hover {
   background: #94a3b8;
+}
+
+.dark ::-webkit-scrollbar-thumb {
+  background: #3b3b55;
 }
