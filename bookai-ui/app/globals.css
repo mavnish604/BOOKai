@@ -2,47 +2,137 @@
 
 @custom-variant dark (&:where(.dark, .dark *));
 
-html {
-  background: #f8f9ff;
+:root {
+  --sf: #f9fafe;
+  --sf-surface: #ffffff;
+  --sf-secondary: #f0f2f9;
+  --sf-tertiary: #e6e9f5;
+  --tx: #1e2033;
+  --tx-secondary: #555973;
+  --tx-tertiary: #8f94a8;
+  --st: #e2e5f1;
+  --st-secondary: rgba(30, 32, 51, 0.08);
+  --sr-indigo: #2c3360;
+  --sr-indigo-900: #1b2046;
 }
 
-html.dark {
-  background: #090a12;
+.dark {
+  --sf: #0a0b12;
+  --sf-surface: #12131e;
+  --sf-secondary: #171827;
+  --sf-tertiary: #1f2135;
+  --tx: #f3f4fa;
+  --tx-secondary: #9da3be;
+  --tx-tertiary: #6b728e;
+  --st: #25283d;
+  --st-secondary: rgba(255, 255, 255, 0.08);
+  --sr-indigo: #818cf8;
+  --sr-indigo-900: #c7d2fe;
+}
+
+html {
+  background: var(--sf);
+  color: var(--tx);
+  font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 body {
   min-height: 100vh;
+  min-height: 100dvh;
 }
 
+/* Font Classes mimicking Sarvam's SeasonMix & Matter */
+.font-season-mix {
+  font-family: var(--font-season-mix), Newsreader, Georgia, serif;
+}
+
+.font-matter {
+  font-family: var(--font-geist-sans), Inter, sans-serif;
+}
+
+/* Sarvam AI Signature Blur Buttons */
+.btn-sarvam-filled {
+  background: linear-gradient(to bottom, #3a3f5c 0%, #1e2033 100%);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.4), inset 0 -2px 0 rgba(0, 0, 0, 0.2);
+  color: #ffffff;
+  transition: all 0.35s cubic-bezier(0.2, 0, 0, 1);
+}
+
+.btn-sarvam-filled:active {
+  transform: scale(0.97);
+}
+
+.dark .btn-sarvam-filled {
+  background: linear-gradient(to bottom, #4f567a 0%, #252840 100%);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.25), inset 0 -2px 0 rgba(0, 0, 0, 0.4);
+}
+
+.btn-sarvam-outline {
+  background: linear-gradient(to bottom, #ffffff 0%, #f0f1f5 100%);
+  box-shadow: inset 0 0 0 1px rgba(30, 32, 51, 0.14);
+  color: #1e2033;
+  transition: all 0.35s cubic-bezier(0.2, 0, 0, 1);
+}
+
+.btn-sarvam-outline:hover {
+  background: #ffffff;
+  box-shadow: inset 0 0 0 1px rgba(30, 32, 51, 0.24);
+}
+
+.btn-sarvam-outline:active {
+  transform: scale(0.97);
+}
+
+.dark .btn-sarvam-outline {
+  background: linear-gradient(to bottom, #1c1d2e 0%, #12131e 100%);
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.12);
+  color: #f3f4fa;
+}
+
+.dark .btn-sarvam-outline:hover {
+  background: #25273d;
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.2);
+}
+
+/* Sarvam Fine-Line Radial Divider */
+.sarvam-divider {
+  width: 100%;
+  height: 1px;
+  background: radial-gradient(circle, #6a88e2 0%, transparent 100%);
+}
+
+.dark .sarvam-divider {
+  background: radial-gradient(circle, #818cf8 0%, transparent 100%);
+}
+
+/* Dot Matrix Canvas Texture */
+.dot-matrix {
+  background-image: radial-gradient(circle, #1e2033 1px, transparent 1px);
+  background-size: 14px 14px;
+}
+
+.dark .dot-matrix {
+  background-image: radial-gradient(circle, #ffffff 1px, transparent 1px);
+}
+
+/* Custom Selection */
 ::selection {
-  background: #c7d2fe;
-  color: #1e1b4b;
+  background: rgba(165, 187, 252, 0.35);
+  color: #1e2033;
 }
 
 .dark ::selection {
-  background: #4338ca;
-  color: #eef2ff;
+  background: rgba(129, 140, 248, 0.35);
+  color: #f3f4fa;
 }
 
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(10px);
-  }
-
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-.animate-fade-in-up {
-  animation: fadeIn 0.4s ease-out forwards;
-}
-
-/* Scrollbar Styling for Webkit */
+/* Scrollbars */
 ::-webkit-scrollbar {
-  width: 8px;
+  width: 6px;
+  height: 6px;
 }
 
 ::-webkit-scrollbar-track {
@@ -50,14 +140,30 @@ body {
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #cbd5e1;
-  border-radius: 4px;
+  background: rgba(143, 148, 168, 0.3);
+  border-radius: 9999px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #94a3b8;
+  background: rgba(143, 148, 168, 0.5);
 }
 
 .dark ::-webkit-scrollbar-thumb {
-  background: #3b3b55;
+  background: rgba(107, 114, 142, 0.35);
+}
+
+/* Animations */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-in-up {
+  animation: fadeInUp 0.45s cubic-bezier(0.25, 1, 0.5, 1) forwards;
 }

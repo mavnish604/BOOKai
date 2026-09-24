@@ -1,0 +1,50 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" fill="none">
+  <defs>
+    <linearGradient id="bookai-grad-page" x1="4" y1="6" x2="44" y2="42" gradientUnits="userSpaceOnUse">
+      <stop stopColor="#6366f1" />
+      <stop offset="0.5" stopColor="#8b5cf6" />
+      <stop offset="1" stopColor="#a855f7" />
+    </linearGradient>
+    <radialGradient id="sparkle-glow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stopColor="#ffffff" stopOpacity="0.9" />
+      <stop offset="100%" stopColor="#c084fc" stopOpacity="0" />
+    </radialGradient>
+  </defs>
+  
+  <!-- Left Page -->
+  <path
+    d="M8 12C8 9.79 9.79 8 12 8H22C23.1 8 24 8.9 24 10V34C24 34 22 32.5 17 32.5H12C9.79 32.5 8 34.29 8 36.5V12Z"
+    fill="url(#bookai-grad-page)"
+    fill-opacity="0.18"
+    stroke="#6366f1"
+    stroke-width="2.5"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+  />
+
+  <!-- Right Page -->
+  <path
+    d="M40 12C40 9.79 38.21 8 36 8H26C24.9 8 24 8.9 24 10V34C24 34 26 32.5 31 32.5H36C38.21 32.5 40 34.29 40 36.5V12Z"
+    fill="url(#bookai-grad-page)"
+    fill-opacity="0.28"
+    stroke="#8b5cf6"
+    stroke-width="2.5"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+  />
+
+  <!-- Spine Center Fold -->
+  <path
+    d="M24 10V34.5"
+    stroke="#6366f1"
+    stroke-width="2.5"
+    stroke-linecap="round"
+  />
+
+  <!-- AI Intelligence Core Sparkle -->
+  <path
+    d="M24 14L25.8 19.2L31 21L25.8 22.8L24 28L22.2 22.8L17 21L22.2 19.2L24 14Z"
+    fill="url(#bookai-grad-page)"
+  />
+  <circle cx="24" cy="21" r="3.5" fill="url(#sparkle-glow)" opacity="0.8" />
+</svg>

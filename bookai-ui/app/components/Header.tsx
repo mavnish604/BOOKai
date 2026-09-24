@@ -1,8 +1,7 @@
 "use client";
 
 import React, { useEffect, useSyncExternalStore } from 'react';
-import Image from 'next/image';
-import { MoonIcon, SparkleIcon, SunIcon } from './Icons';
+import { BookAiMark, MoonIcon, RefreshIcon, SparklesIcon, SunIcon } from './Icons';
 
 const THEME_CHANGE_EVENT = 'bookai-theme-change';
 
@@ -26,9 +25,10 @@ function subscribeToTheme(onStoreChange: () => void) {
 interface HeaderProps {
     queriesUsed: number;
     queryLimit: number;
+    onReset?: () => void;
 }
 
-export default function Header({ queriesUsed, queryLimit }: HeaderProps) {
+export default function Header({ queriesUsed, queryLimit, onReset }: HeaderProps) {
     const isDark = useSyncExternalStore(subscribeToTheme, getThemeSnapshot, () => false);
 
     useEffect(() => {
@@ -41,36 +41,73 @@ export default function Header({ queriesUsed, queryLimit }: HeaderProps) {
         window.dispatchEvent(new Event(THEME_CHANGE_EVENT));
     };
 
+    const remaining = Math.max(queryLimit - queriesUsed, 0);
+    const isLimitReached = queriesUsed >= queryLimit;
+
     return (
-        <header className="relative z-10 flex h-[72px] flex-shrink-0 items-center justify-between border-b border-slate-200/70 bg-white/75 px-4 backdrop-blur-xl sm:px-7 dark:border-white/8 dark:bg-[#0d0e17]/75">
+        <header className="sticky top-0 z-40 flex h-16 w-full flex-shrink-0 items-center justify-between border-b border-[#e2e5f1]/80 bg-[#f9fafe]/85 px-4 backdrop-blur-md transition-colors sm:px-8 dark:border-[#25283d] dark:bg-[#0a0b12]/85">
+            {/* Left: Sarvam-style Wordmark & Mark */}
             <div className="flex items-center gap-3">
-                <div className="h-14 w-[84px] shrink-0 overflow-hidden rounded-xl bg-[#090a12] shadow-md shadow-indigo-500/15 ring-1 ring-slate-200/80 dark:ring-white/10">
-                    <Image
-                        src="/bookai-logo.png"
-                        alt="BookAI mascot logo"
-                        width={1536}
-                        height={1024}
-                        priority
-                        className="h-full w-full object-contain"
-                    />
+                <div className="relative flex h-8 w-8 items-center justify-center rounded-xl bg-white shadow-[inset_0_1px_1px_rgba(255,255,255,0.6),0_1px_3px_rgba(30,32,51,0.08)] ring-1 ring-[#1e2033]/10 dark:bg-[#1a1b2b] dark:ring-white/10">
+                    <BookAiMark className="h-4.5 w-4.5 text-[#1e2033] dark:text-[#f3f4fa]" />
                 </div>
-                <div>
-                    <h1 className="text-base font-semibold tracking-tight text-slate-900 dark:text-white">BookAI</h1>
-                    <p className="hidden text-[11px] text-slate-500 sm:block dark:text-slate-400">Your reading companion</p>
+                <div className="flex items-baseline gap-2">
+                    <span className="font-matter text-[17px] font-semibold tracking-tight text-[#1e2033] dark:text-[#f3f4fa]">
+                        BookAI
+                    </span>
+                    <span className="hidden rounded-full border border-indigo-200/50 bg-[#eef2ff] px-2 py-0.5 font-matter text-[10px] font-medium tracking-wide text-[#2e3776] sm:inline-block dark:border-indigo-400/20 dark:bg-[#1e2240] dark:text-[#c7d2fe]">
+                        Sovereign
+                    </span>
                 </div>
             </div>
-            <div className="flex items-center gap-2 sm:gap-3">
-                <div className="hidden items-center gap-1.5 rounded-full bg-indigo-50 px-3 py-1.5 text-xs font-medium text-indigo-700 sm:flex dark:bg-indigo-500/10 dark:text-indigo-300">
-                    <SparkleIcon className="h-3.5 w-3.5" />
-                    {queriesUsed}/{queryLimit} prompts
+
+            {/* Middle: Subtle indicator (desktop) */}
+            <div className="hidden md:flex items-center gap-6">
+                <span className="font-matter text-xs font-medium tracking-wide text-[#555973] uppercase dark:text-[#9da3be]">
+                    Platform for Curious Readers
+                </span>
+            </div>
+
+            {/* Right: Actions in Sarvam Pill Style */}
+            <div className="flex items-center gap-2.5">
+                {/* Session Quota Pill */}
+                <div
+                    className={`inline-flex items-center gap-2 rounded-full border px-3 py-1 font-matter text-xs font-medium transition-colors ${
+                        isLimitReached
+                            ? 'border-amber-300/80 bg-amber-50 text-amber-800 dark:border-amber-600/30 dark:bg-amber-950/20 dark:text-amber-300'
+                            : 'border-[#e2e5f1] bg-white text-[#555973] shadow-xs dark:border-[#25283d] dark:bg-[#12131e] dark:text-[#9da3be]'
+                    }`}
+                >
+                    <SparklesIcon className="h-3 w-3 text-indigo-500" />
+                    <span className="hidden sm:inline">Prompts:</span>
+                    <strong className="text-[#1e2033] dark:text-[#f3f4fa]">{queriesUsed}/{queryLimit}</strong>
                 </div>
+
+                {/* Reset Button (Sarvam Outline Style) */}
+                {onReset && (
+                    <button
+                        type="button"
+                        onClick={onReset}
+                        className="btn-sarvam-outline hidden sm:inline-flex h-9 items-center gap-1.5 rounded-full px-4 font-matter text-xs font-medium cursor-pointer"
+                        title="Start a fresh conversation"
+                    >
+                        <RefreshIcon className="h-3 w-3" />
+                        <span>New Chat</span>
+                    </button>
+                )}
+
+                {/* Theme Toggle */}
                 <button
                     type="button"
                     onClick={toggleTheme}
-                    className="grid h-9 w-9 place-items-center rounded-full text-slate-600 transition hover:bg-slate-100 hover:text-slate-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:text-slate-300 dark:hover:bg-white/10 dark:hover:text-white"
+                    className="grid h-9 w-9 place-items-center rounded-full border border-[#e2e5f1] bg-white text-[#555973] shadow-xs transition hover:border-[#c9cde0] hover:text-[#1e2033] focus:outline-none dark:border-[#25283d] dark:bg-[#12131e] dark:text-[#9da3be] dark:hover:border-[#383d5a] dark:hover:text-white cursor-pointer"
                     aria-label={`Switch to ${isDark ? 'light' : 'dark'} mode`}
                 >
-                    {isDark ? <SunIcon className="h-[18px] w-[18px]" /> : <MoonIcon className="h-[18px] w-[18px]" />}
+                    {isDark ? (
+                        <SunIcon className="h-3.5 w-3.5 transition-transform hover:rotate-45" />
+                    ) : (
+                        <MoonIcon className="h-3.5 w-3.5 transition-transform hover:-rotate-12" />
+                    )}
                 </button>
             </div>
         </header>
